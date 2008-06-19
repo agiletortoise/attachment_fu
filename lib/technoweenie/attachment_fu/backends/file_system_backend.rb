@@ -35,7 +35,8 @@ module Technoweenie # :nodoc:
         # to turn this off set :partition => false
         def partitioned_path(*args)
           if respond_to?(:attachment_options) && attachment_options[:partition] == false 
-            args
+            # 2008.06.18 by Greg Pierce - with partition==false, id was not added to path
+            args.insert(0, self.id.to_s) # args
           else 
             ("%08d" % attachment_path_id).scan(/..../) + args
           end
